@@ -5,16 +5,16 @@ class AbstractMelonOrder(object):
 
     # initializing class attributes that are default for all melons order
     shipped = False
-    order_type = None
-    tax = None
 
-    def __init__(self, species, qty):
+    def __init__(self, species, qty, order_type, tax, country_code):
         """Initialize melon order attributes"""
 
         # bind user input to class attributes
         self.species = species
         self.qty = qty
-
+        self.order_type = order_type
+        self.tax = tax
+        self.country_code = country_code
         # 
     def get_total(self):
         """Calculate price."""
@@ -26,7 +26,7 @@ class AbstractMelonOrder(object):
 
     def mark_shipped(self):
         """Set shipped to true."""
-        
+
         # mark order as shipped 
         self.shipped = True
 
@@ -35,32 +35,24 @@ class AbstractMelonOrder(object):
 class DomesticMelonOrder(AbstractMelonOrder):
     """A domestic (in the US) melon order."""
 
-    # instance attributes unique domestic orders only
-    order_type = "domestic"
-    tax = .08
 
     def __init__(self, species, qty):
         """Initialize melon order attributes"""
 
         # user super method to use superclass init on species and qty
-        super(DomesticMelonOrder, self).__init__(species, qty)
+        super(DomesticMelonOrder, self).__init__(species, qty, 'domestic', 0.08, None)
 
 
 
 class InternationalMelonOrder(AbstractMelonOrder):
     """An international (non-US) melon order."""
 
-    order_type = "international"
-    tax = 0.17
 
     def __init__(self, species, qty, country_code):
         """Initialize melon order attributes"""
 
-        # initializing country code based on user input
-        self.country_code = country_code
-
         # user super method to use superclass init on species and qty
-        super(InternationalMelonOrder, self).__init__(species, qty)
+        super(InternationalMelonOrder, self).__init__(species, qty, 'international', 0.17, country_code)
 
 
     def get_country_code(self):
