@@ -20,9 +20,17 @@ class AbstractMelonOrder(object):
         """Calculate price."""
 
         # calculate and return a total price given tax, qty, and price
-        base_price = 5
+        if self.species.lower() == "christmas melon": 
+            base_price = 5 * 1.5
+        else: 
+            base_price = 5
+
         total = (1 + self.tax) * self.qty * base_price
-        return total
+        if order_type == 'international' and qty < 10:
+            total += 3
+            return total
+        else:
+            return total
 
     def mark_shipped(self):
         """Set shipped to true."""
@@ -60,3 +68,5 @@ class InternationalMelonOrder(AbstractMelonOrder):
 
         # return the value of country code 
         return self.country_code
+
+
